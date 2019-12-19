@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <functional>
+#include <vector>
+#include <algorithm>
 
 namespace Lab10
 {
@@ -60,7 +62,6 @@ LinkedList<T>::LinkedList(const LinkedList &list) : _first(nullptr) {
      for( Node* const* current_node = &list._first;
           *current_node != nullptr;
           current_node = &(*current_node)->next) {
-
          *node = new Node { (*current_node)->value, nullptr};
          node = &(*node)->next;
      }
@@ -123,7 +124,23 @@ int LinkedList<T>::getLength() const {
 }
 
 template<typename T>
-void LinkedList<T>::sort(std::function<bool(T,T)> predicate) {}
+void LinkedList<T>::sort(std::function<bool(T,T)> predicate) {
+    std::vector<Node*> idx;
+    Node*   ptr = _first;
+    while( nullptr != ptr) {
+        idx.push_back(ptr);
+        ptr = ptr->next;
+    }
+    std::sort( idx.begin(), idx.end());
+
+    Node** temp = &_first;
+    for( auto i : idx) {
+        *temp = i;
+        temp = &(*temp)->next;
+    }
+    *temp = nullptr;
+//               std::bind(predicate.target, std::placeholders::_1, std::placeholders::_2));
+}
 
 template<typename T>
 bool operator==(const LinkedList<T>&op1,const LinkedList<T>&op2) {
@@ -148,7 +165,8 @@ template<typename T>
 std::ostream& operator<<(std::ostream& os,const LinkedList<T> &list) {
      auto* current_node = list._first;
      for( int i = 0; i < list.getLength(); i++ ) {
-         os << "[" << i << "]" << current_node->value << std::endl;
+         os << current_node->value;
+         current_node = current_node->next;
      }
   return os;
 }
