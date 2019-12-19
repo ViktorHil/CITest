@@ -20,6 +20,7 @@ public:
     LinkedList(std::initializer_list<T> list);
     LinkedList(const LinkedList<T>& src);
     LinkedList(LinkedList &&src);
+    // operator= is absent
     virtual ~LinkedList();
     void insertAt(int index,T value);
     void removeAt(int index);
@@ -40,22 +41,21 @@ template<typename T>
 bool operator==(const Lab10::LinkedList<T>&op1,const Lab10::LinkedList<T>&op2);
 
 template<typename T>
- LinkedList<T>::LinkedList(): _first(nullptr) {
+LinkedList<T>::LinkedList(): _first(nullptr) {
 }
 
 template<typename T>
- LinkedList<T>::LinkedList(std::initializer_list<T> list): _first(nullptr)
- {
+LinkedList<T>::LinkedList(std::initializer_list<T> list): _first(nullptr) {
      Node** current_node = &_first;
      for( auto i : list) {
-         *current_node = new Node { i, nullptr};
+         *current_node = new Node();
+         (*current_node)->value = i;
          current_node = &(*current_node)->next;
      }
 
  }
 template<typename T>
- LinkedList<T>::LinkedList(const LinkedList &src) : _first(nullptr)
- {
+LinkedList<T>::LinkedList(const LinkedList &list) : _first(nullptr) {
      Node** node = &_first;
      for( Node* const* current_node = &list._first;
           *current_node != nullptr;
@@ -67,16 +67,13 @@ template<typename T>
  }
 
 template<typename T>
- LinkedList<T>::LinkedList(LinkedList &&src)
- {
+LinkedList<T>::LinkedList(LinkedList &&src) {
      _first = src._first;
      src._first = nullptr;
-
- }
+}
 
 template<typename T>
- LinkedList<T>::~LinkedList()
-{
+LinkedList<T>::~LinkedList() {
      while( nullptr != _first) {
          Node* current_node = _first;
          _first = current_node->next;
@@ -84,9 +81,9 @@ template<typename T>
      }
 
 }
+
 template<typename T>
- void LinkedList<T>::removeAt(int index)
- {
+void LinkedList<T>::removeAt(int index) {
      Node** current = &_first;
      for( int pos = 0; *current != nullptr; pos++) {
          if ( pos == index) {
@@ -97,10 +94,10 @@ template<typename T>
          }
          current = &(*current)->next;
      }
- }
+}
+
 template<typename T>
- void LinkedList<T>::insertAt(int index,T value)
- {
+void LinkedList<T>::insertAt(int index,T value) {
      Node** current_node = &_first;
      int     position = 0;
      do {
@@ -111,11 +108,10 @@ template<typename T>
          current_node = &(*current_node)->next;
          position++;
      } while( nullptr != *current_node);
- }
+}
 
 template<typename T>
- int LinkedList<T>::getLength() const
- {
+int LinkedList<T>::getLength() const {
      Node* current = _first;
      for( int i = 0;; i++) {
          if ( nullptr == current) {
@@ -124,16 +120,16 @@ template<typename T>
          current = current->next;
      }
      return 0;
- }
+}
+
 template<typename T>
- void LinkedList<T>::sort(std::function<bool(T,T)> predicate)
- {
- }
+void LinkedList<T>::sort(std::function<bool(T,T)> predicate) {}
+
 template<typename T>
- bool operator==(const LinkedList<T>&op1,const LinkedList<T>&op2)
- {
-     LinkedList::Node* current1 = op1._first;
-     LinkedList::Node* current2 = op2._first;
+bool operator==(const LinkedList<T>&op1,const LinkedList<T>&op2) {
+     auto* current1 = op1._first;
+     auto* current2 = op2._first;
+
      bool res = false;
      while(( nullptr != current1)&&( nullptr != current2)) {
          if (( current1->value) == ( current2->value)) {
@@ -146,18 +142,17 @@ template<typename T>
          current2 = current2->next;
      }
      return res;
- }
+}
+
 template<typename T>
- std::ostream& operator<<(std::ostream& os,const LinkedList<T> &list)
- {
-     LinkedList::Node* current_node = list._first;
+std::ostream& operator<<(std::ostream& os,const LinkedList<T> &list) {
+     auto* current_node = list._first;
      for( int i = 0; i < list.getLength(); i++ ) {
          os << "[" << i << "]" << current_node->value << std::endl;
      }
   return os;
+}
 
- }
-
-
+ // cppinsights.io
 
 }; //namespace
