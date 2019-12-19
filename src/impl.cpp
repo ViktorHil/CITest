@@ -9,19 +9,64 @@
 #include <exception>
 #include <stdexcept>
 
-Integer::Integer(int value) : _value {value} {
-    if ((value < 0)||( value > 9)) {
-        throw std::out_of_range("out of range value");
-    }
+using namespace Lab10;
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os,const Lab10::LinkedList<T> &list);
+
+template<typename T>
+bool operator==(const Lab10::LinkedList<T>&op1,const Lab10::LinkedList<T>&op2);
+
+template<typename T>
+ LinkedList<T>::LinkedList(): _first(nullptr) {
+
+
 }
 
-Integer::~Integer() {
-}
+template<typename T>
+ LinkedList<T>::LinkedList(std::initializer_list<T> list): _first(nullptr)
+ {
 
-Integer::operator char*() {
-    const char* encode_table[] =
-        { "zero" , "one"  , "two"  , "three",
-          "four" , "five" , "six"  , "seven",
-          "eight", "nine" };
-    return const_cast<char*>(encode_table[ _value]);
+ }
+template<typename T>
+ LinkedList<T>::LinkedList(const LinkedList &src) : _first(nullptr)
+ {
+ }
+
+template<typename T>
+ LinkedList<T>::LinkedList(LinkedList &&src)
+ {
+ }
+
+template<typename T>
+ LinkedList<T>::~LinkedList()
+{
 }
+template<typename T>
+ void LinkedList<T>::removeAt(int index)
+ {
+ }
+template<typename T>
+ void LinkedList<T>::insertAt(int index,T value)
+ {
+ }
+
+template<typename T>
+ int LinkedList<T>::getLength() const
+ {
+ return -1;
+ }
+template<typename T>
+ void LinkedList<T>::sort(std::function<bool(T,T)> predicate)
+ {
+ }
+template<typename T>
+ bool operator==(const LinkedList<T>&op1,const LinkedList<T>&op2)
+ {
+ return false;
+ }
+template<typename T>
+ std::ostream& operator<<(std::ostream& os,const LinkedList<T> &list)
+ {
+ return os;
+ }
