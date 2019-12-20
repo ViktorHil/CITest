@@ -140,6 +140,28 @@ void LinkedList<T>::sort(std::function<bool(T,T)> predicate) {
     }
     *temp = nullptr;
 //               std::bind(predicate.target, std::placeholders::_1, std::placeholders::_2));
+
+    /*
+#include <cstdio>
+#include <algorithm>
+#include <vector>
+#include <functional>
+
+int main()
+{
+    std::vector<int> v { 1, 3, 2, 5};
+
+//  template<typename T>
+//  	std::function<bool(T,T)> Compare;
+
+
+
+    std::function<bool(int,int)> comp = {[]( int x, int y) { return x < y; }};
+
+    std::sort(v.begin(), v.end(), comp);
+
+}
+     */
 }
 
 template<typename T>
